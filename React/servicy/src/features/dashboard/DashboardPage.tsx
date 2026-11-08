@@ -8,6 +8,7 @@ import {
 } from "@mantine/core";
 
 import { mockNodes } from "../../mocks/nodes";
+import { mockServices } from "../../mocks/services";
 
 export default function DashboardPage() {
   const onlineNodes = mockNodes.filter(
@@ -18,7 +19,7 @@ export default function DashboardPage() {
     { label: "Total Nodes", value: mockNodes.length },
     { label: "Online Nodes", value: onlineNodes },
     { label: "Offline Nodes", value: mockNodes.length - onlineNodes },
-    { label: "Total Services", value: 0 }
+    { label: "Total Services", value: mockServices.length }
   ];
 
   return (
