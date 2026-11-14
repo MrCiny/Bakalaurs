@@ -6,6 +6,7 @@ import DashboardPage from "../features/dashboard/DashboardPage";
 import NodesPage from "../features/nodes/NodesPage";
 import NodeDetailsPage from "../features/nodes/NodeDetailsPage";
 import ServicesPage from "../features/services/ServicesPage";
+import ServiceDetailsPage from "../features/services/ServiceDetailsPage";
 import PlaceholderPage from "../features/shared/PlaceholderPage";
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="nodes" element={<NodesPage />} />
         <Route path="nodes/:id" element={<NodeDetailsPage />} />
         <Route path="services" element={<ServicesPage />} />
+        <Route path="services/:id" element={<ServiceDetailsPage />} />
 
         <Route path="*" element={<PlaceholderPage title="404 - Page not found" />} />
       </Route>
