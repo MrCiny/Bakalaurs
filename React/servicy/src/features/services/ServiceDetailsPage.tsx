@@ -1,20 +1,29 @@
 
 import { useNavigate, useParams } from "react-router";
 import {
-  Button,
-  Group,
-  Paper,
-  Progress,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title
+    Button,
+    Group,
+    Stack,
+    Tabs,
+    Text,
+    Title
 } from "@mantine/core";
-import { IconArrowLeft } from "@tabler/icons-react";
+import {
+    IconArrowLeft,
+    IconInfoCircle,
+    IconFileText,
+    IconActivity,
+    IconSettings,
+    IconBrain
+} from "@tabler/icons-react";
 
 import { mockServices } from "../../mocks/services";
-import { mockNodes } from "../../mocks/nodes";
 import ServiceStatusBadge from "./components/ServiceStatusBadge";
+import ServiceOverview from "./components/ServiceOverview";
+import ServiceLogs from "./components/ServiceLogs";
+import ServiceMetrics from "./components/ServiceMetrics";
+import ServiceConfiguration from "./components/ServiceConfiguration";
+import ServiceAIAnalysis from "./components/ServiceAIAnalysis";
 
 export default function ServiceDetailsPage() {
     const { id } = useParams();
@@ -22,11 +31,8 @@ export default function ServiceDetailsPage() {
 
     const service = mockServices.find((s) => s.id === id);
 
-    if (!service) {
+    if (!service)
         return <Text>Service not found.</Text>;
-    }
-
-    const node = mockNodes.find((n) => n.id === service.nodeId);
 
     return (
         <Stack>
@@ -45,44 +51,82 @@ export default function ServiceDetailsPage() {
                 <ServiceStatusBadge status={service.status} />
             </Group>
 
-            <Paper withBorder p="md">
-                <Title order={4} mb="md">
-                    Service Information
-                </Title>
+            <Tabs
+                defaultValue="overview"
+                keepMounted={false}
+            >
+                <Tabs.List>
+                    <Tabs.Tab
+                        value="overview"
+                        leftSection={<IconInfoCircle size={16} />}
+                    >
+                        Overview
+                    </Tabs.Tab>
 
-                <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                    <Text>Type: {service.type}</Text>
-                    <Text>Node: {node?.name ?? "Unknown"}</Text>
-                    <Text>Host: {service.host ?? "—"}</Text>
-                    <Text>Port: {service.port ?? "—"}</Text>
-                    <Text>Image: {service.image ?? "—"}</Text>
-                    <Text>Discovery: {service.discoverySource}</Text>
-                    <Text>
-                        Last Seen: {new Date(service.lastSeenAt).toLocaleString()}
-                    </Text>
-                </SimpleGrid>
-            </Paper>
+                    <Tabs.Tab
+                        value="logs"
+                        leftSection={<IconFileText size={16} />}
+                    >
+                        Logs
+                    </Tabs.Tab>
 
-            <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <Paper withBorder p="md">
-                    <Text fw={500} mb="sm">CPU Usage</Text>
-                    <Progress value={service.cpuUsage ?? 0} />
-                    <Text mt="xs">
-                        {service.cpuUsage !== undefined
-                        ? `${service.cpuUsage}%`
-                        : "No data"}
-                    </Text>
-                </Paper>
+                    <Tabs.Tab
+                        value="metrics"
+                        leftSection={<IconActivity size={16} />}
+                    >
+                        Metrics
+                    </Tabs.Tab>
 
-                <Paper withBorder p="md">
-                    <Text fw={500} mb="sm">Memory Usage</Text>
-                    <Text size="xl" fw={600}>
-                        {service.memoryUsage !== undefined
-                        ? `${service.memoryUsage} MB`
-                        : "No data"}
-                    </Text>
-                </Paper>
-            </SimpleGrid>
+                    <Tabs.Tab
+                        value="configuration"
+                        leftSection={<IconSettings size={16} />}
+                    >
+                        Configuration
+                    </Tabs.Tab>
+
+                    <Tabs.Tab
+                        value="ai"
+                        leftSection={<IconBrain size={16} />}
+                    >
+                        AI Analysis
+                    </Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel
+                    value="overview"
+                    pt="md"
+                >
+                    <ServiceOverview service={service} />
+                </Tabs.Panel>
+
+                <Tabs.Panel
+                    value="logs"
+                    pt="md"
+                >
+                    <ServiceLogs service={service} />
+                </Tabs.Panel>
+
+                <Tabs.Panel
+                    value="metrics"
+                    pt="md"
+                >
+                    <ServiceMetrics service={service} />
+                </Tabs.Panel>
+
+                <Tabs.Panel
+                    value="configuration"
+                    pt="md"
+                >
+                    <ServiceConfiguration service={service} />
+                </Tabs.Panel>
+
+                <Tabs.Panel
+                    value="ai"
+                    pt="md"
+                >
+                    <ServiceAIAnalysis service={service} />
+                </Tabs.Panel>
+            </Tabs>
         </Stack>
     );
 }

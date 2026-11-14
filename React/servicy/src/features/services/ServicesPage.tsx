@@ -150,7 +150,7 @@ export default function ServicesPage() {
                             </Table.Td>
 
                             <Table.Td>
-                                {service.port ?? "—"}
+                                {service.port ?? "-"}
                             </Table.Td>
 
                             <Table.Td>
